@@ -41,9 +41,7 @@ public sealed partial class MainPage : Page
             return;
         }
 
-        // VK_OEM_MINUS (0xBD) is the physical keyboard minus key.
-        // VirtualKey exposes Subtract for the numeric keypad minus key.
-        if ((int)e.Key == OemMinusVirtualKey || e.Key == VirtualKey.Subtract)
+        if (IsMinusKey(e.Key))
         {
             ViewModel.ToggleSignCommand.Execute(null);
             e.Handled = true;
@@ -56,6 +54,13 @@ public sealed partial class MainPage : Page
             ViewModel.AppendDigit(digit.Value);
             e.Handled = true;
         }
+    }
+
+    private static bool IsMinusKey(VirtualKey key)
+    {
+        // VK_OEM_MINUS (0xBD) is the physical keyboard minus key.
+        // VirtualKey.Subtract represents the numeric keypad minus key.
+        return (int)key == OemMinusVirtualKey || key == VirtualKey.Subtract;
     }
 
     private static char? GetDigit(VirtualKey key)

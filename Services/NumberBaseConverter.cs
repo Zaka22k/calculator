@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Calculator.Services;
@@ -65,16 +66,18 @@ public sealed class NumberBaseConverter
         var isNegative = value.Sign < 0;
         value = BigInteger.Abs(value);
 
-        Span<char> buffer = stackalloc char[128];
-        var position = buffer.Length;
+        // Use a dynamically sized collection so large values are not limited to 128 digits.
+        var digits = new List<char>();
 
         while (value > BigInteger.Zero)
         {
             value = BigInteger.DivRem(value, numberBase, out var remainder);
-            buffer[--position] = Digits[(int)remainder];
+            digits.Add(Digits[(int)remainder]);
         }
 
-        var result = new string(buffer[position..]);
+        digits.Reverse();
+
+        var result = new string(digits.ToArray());
         return isNegative ? $"-{result}" : result;
     }
 
