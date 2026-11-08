@@ -1,20 +1,82 @@
+using Calculator.ViewModels;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Microsoft.UI.Xaml.Input;
+using Windows.System;
 
 namespace Calculator;
 
-/// <summary>
-/// The main content page displayed inside the application window.
-/// Add your UI logic, event handlers, and data binding here.
-/// </summary>
 public sealed partial class MainPage : Page
 {
+    private const int OemMinusVirtualKey = 0xBD;
+
+    public CalculatorViewModel ViewModel { get; }
+
     public MainPage()
     {
         InitializeComponent();
 
-        // TODO: Add your initialization logic here.
+        ViewModel = new CalculatorViewModel();
+        DataContext = ViewModel;
+    }
+
+    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        InputDisplay.Focus(FocusState.Programmatic);
+    }
+
+    private void MainPage_KeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key == VirtualKey.Back)
+        {
+            ViewModel.BackspaceCommand.Execute(null);
+            e.Handled = true;
+            return;
+        }
+
+        if (e.Key == VirtualKey.Escape)
+        {
+            ViewModel.ClearCommand.Execute(null);
+            e.Handled = true;
+            return;
+        }
+
+        // VK_OEM_MINUS (0xBD) is the physical keyboard minus key.
+        // VirtualKey exposes Subtract for the numeric keypad minus key.
+        if ((int)e.Key == OemMinusVirtualKey || e.Key == VirtualKey.Subtract)
+        {
+            ViewModel.ToggleSignCommand.Execute(null);
+            e.Handled = true;
+            return;
+        }
+
+        var digit = GetDigit(e.Key);
+        if (digit.HasValue)
+        {
+            ViewModel.AppendDigit(digit.Value);
+            e.Handled = true;
+        }
+    }
+
+    private static char? GetDigit(VirtualKey key)
+    {
+        var keyCode = (int)key;
+
+        if (keyCode >= (int)VirtualKey.Number0 && keyCode <= (int)VirtualKey.Number9)
+        {
+            return (char)('0' + keyCode - (int)VirtualKey.Number0);
+        }
+
+        if (keyCode >= (int)VirtualKey.NumberPad0 && keyCode <= (int)VirtualKey.NumberPad9)
+        {
+            return (char)('0' + keyCode - (int)VirtualKey.NumberPad0);
+        }
+
+        if (keyCode >= (int)VirtualKey.A && keyCode <= (int)VirtualKey.F)
+        {
+            return (char)('A' + keyCode - (int)VirtualKey.A);
+        }
+
+        return null;
     }
 }

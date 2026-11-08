@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Calculator"
+    Title="Конвертер систем счисления"
     mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop />
@@ -18,17 +18,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TitleBar x:Name="AppTitleBar" Title="Calculator">
+        <TitleBar x:Name="AppTitleBar" Title="Конвертер систем счисления">
             <TitleBar.IconSource>
                 <ImageIconSource ImageSource="Assets/AppIcon.ico" />
             </TitleBar.IconSource>
         </TitleBar>
 
-        <!--
-            The Frame hosts pages for your application content. Add your UI to
-            MainPage.xaml rather than here so you can use Page features such as
-            navigation events and the Loaded lifecycle.
-        -->
         <Frame x:Name="RootFrame" Grid.Row="1" />
     </Grid>
 </Window>
