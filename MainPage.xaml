@@ -7,30 +7,36 @@
     xmlns:local="using:Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    RequestedTheme="Dark"
     KeyDown="MainPage_KeyDown"
     Loaded="MainPage_Loaded">
 
-    <Grid Margin="24">
+    <Grid
+        Margin="12"
+        Background="#241D1B">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="42*" />
+            <RowDefinition Height="58*" />
         </Grid.RowDefinitions>
 
         <Viewbox
             Grid.Row="0"
             Stretch="Uniform"
-            HorizontalAlignment="Right">
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">
             <TextBox
                 x:Name="InputDisplay"
-                Width="900"
-                Height="86"
+                Width="850"
+                Height="84"
                 Text="{Binding InputText, Mode=OneWay}"
                 IsReadOnly="True"
                 IsSpellCheckEnabled="False"
                 TextWrapping="NoWrap"
                 TextAlignment="Right"
                 VerticalContentAlignment="Center"
-                FontSize="45"
+                FontSize="46"
+                Foreground="#F5F3F2"
                 FontStretch="UltraCondensed"
                 Padding="10"
                 BorderThickness="0"
@@ -39,99 +45,176 @@
                 AutomationProperties.Name="Текущее число" />
         </Viewbox>
 
-        <StackPanel
+        <ListView
+            x:Name="BaseList"
             Grid.Row="1"
-            HorizontalAlignment="Center"
+            Width="320"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Spacing="0">
+            SelectionMode="None"
+            Padding="0"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            Background="Transparent"
+            AutomationProperties.Name="Результаты в системах счисления">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="34" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </ListView.ItemContainerStyle>
 
             <InfoBar
+                Grid.Row="1"
+                Width="320"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
                 IsOpen="{Binding HasError}"
                 Message="{Binding ErrorMessage}"
                 Severity="Error"
                 IsClosable="False" />
 
-            <ListView
-                x:Name="BaseList"
-                SelectionChanged="BaseList_SelectionChanged"
-                MinWidth="300"
-                MaxWidth="700"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Padding="0"
-                BorderThickness="0"
-                BorderBrush="Transparent"
-                Background="Transparent"
-                AutomationProperties.Name="Результаты в системах счисления">
+            <ListViewItem Tag="16" Tapped="BaseListItem_Tapped">
+                <Grid MinHeight="34" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="HexMarker"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="22"
+                        CornerRadius="2"
+                        Background="#D3A04B"
+                        Visibility="Collapsed"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="HEX"
+                        Margin="8,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding HexValue}"
+                        Margin="9,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center" />
+                </Grid>
+            </ListViewItem>
 
-                <ListViewItem Tag="16">
-                    <Grid ColumnSpacing="24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="HEX" VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="{Binding HexValue}"
-                            HorizontalAlignment="Stretch"
-                            TextAlignment="Right"
-                            TextWrapping="Wrap"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </ListViewItem>
+            <ListViewItem Tag="10" Tapped="BaseListItem_Tapped">
+                <Grid MinHeight="34" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="DecMarker"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="22"
+                        CornerRadius="2"
+                        Background="#D3A04B"
+                        Visibility="Collapsed"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="DEC"
+                        Margin="8,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding DecimalValue}"
+                        Margin="9,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center" />
+                </Grid>
+            </ListViewItem>
 
-                <ListViewItem Tag="10">
-                    <Grid ColumnSpacing="24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="DEC" VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="{Binding DecimalValue}"
-                            HorizontalAlignment="Stretch"
-                            TextAlignment="Right"
-                            TextWrapping="Wrap"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </ListViewItem>
+            <ListViewItem Tag="8" Tapped="BaseListItem_Tapped">
+                <Grid MinHeight="34" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="OctMarker"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="22"
+                        CornerRadius="2"
+                        Background="#D3A04B"
+                        Visibility="Collapsed"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="OCT"
+                        Margin="8,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding OctalValue}"
+                        Margin="9,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center" />
+                </Grid>
+            </ListViewItem>
 
-                <ListViewItem Tag="8">
-                    <Grid ColumnSpacing="24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="OCT" VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="{Binding OctalValue}"
-                            HorizontalAlignment="Stretch"
-                            TextAlignment="Right"
-                            TextWrapping="Wrap"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </ListViewItem>
-
-                <ListViewItem Tag="2">
-                    <Grid ColumnSpacing="24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="BIN" VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="{Binding BinaryValue}"
-                            HorizontalAlignment="Stretch"
-                            TextAlignment="Right"
-                            TextWrapping="Wrap"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </ListViewItem>
-            </ListView>
-        </StackPanel>
+            <ListViewItem Tag="2" Tapped="BaseListItem_Tapped">
+                <Grid MinHeight="34" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="BinMarker"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="22"
+                        CornerRadius="2"
+                        Background="#D3A04B"
+                        Visibility="Collapsed"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="BIN"
+                        Margin="8,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding BinaryValue}"
+                        Margin="9,0,0,0"
+                        FontSize="14"
+                        Foreground="#F5F3F2"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center" />
+                </Grid>
+            </ListViewItem>
+        </ListView>
     </Grid>
 </Page>

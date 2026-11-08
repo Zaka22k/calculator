@@ -22,29 +22,30 @@ public sealed partial class MainPage : Page
 
     private void MainPage_Loaded(object sender, RoutedEventArgs e)
     {
-        BaseList.SelectedIndex = ViewModel.SelectedBase switch
-        {
-            16 => 0,
-            10 => 1,
-            8 => 2,
-            2 => 3,
-            _ => 1
-        };
-
+        UpdateSelectedMarker(ViewModel.SelectedBase);
         InputDisplay.Focus(FocusState.Programmatic);
     }
 
-    private void BaseList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void BaseListItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (sender is not ListView list
-            || list.SelectedItem is not ListViewItem item
+        if (sender is not ListViewItem item
             || !int.TryParse(item.Tag?.ToString(), out var numberBase))
         {
             return;
         }
 
         ViewModel.SelectedBase = numberBase;
+        UpdateSelectedMarker(numberBase);
         InputDisplay.Focus(FocusState.Programmatic);
+        e.Handled = true;
+    }
+
+    private void UpdateSelectedMarker(int numberBase)
+    {
+        HexMarker.Visibility = numberBase == 16 ? Visibility.Visible : Visibility.Collapsed;
+        DecMarker.Visibility = numberBase == 10 ? Visibility.Visible : Visibility.Collapsed;
+        OctMarker.Visibility = numberBase == 8 ? Visibility.Visible : Visibility.Collapsed;
+        BinMarker.Visibility = numberBase == 2 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void MainPage_KeyDown(object sender, KeyRoutedEventArgs e)
