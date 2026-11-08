@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Calculator.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,102 +10,51 @@
     KeyDown="MainPage_KeyDown"
     Loaded="MainPage_Loaded">
 
-    <ScrollViewer
-        VerticalScrollBarVisibility="Auto"
-        HorizontalScrollBarVisibility="Disabled">
-        <Grid Padding="32">
+    <Grid Margin="36">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Text="Калькулятор программиста"
+            Style="{ThemeResource TitleTextBlockStyle}" />
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Viewbox
+                Grid.Row="0"
+                Stretch="Uniform"
+                HorizontalAlignment="Right">
+                <TextBox
+                    x:Name="InputDisplay"
+                    Width="900"
+                    Height="86"
+                    Text="{Binding InputText, Mode=OneWay}"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    TextWrapping="NoWrap"
+                    TextAlignment="Right"
+                    VerticalContentAlignment="Center"
+                    FontSize="45"
+                    FontStretch="UltraCondensed"
+                    Padding="10"
+                    BorderThickness="0"
+                    Background="Transparent"
+                    SelectionFlyout="{x:Null}"
+                    AutomationProperties.Name="Текущее число" />
+            </Viewbox>
+
             <StackPanel
-                MaxWidth="820"
+                Grid.Row="1"
                 HorizontalAlignment="Center"
-                Spacing="20">
-
-                <StackPanel Spacing="4">
-                    <TextBlock
-                        Text="Конвертер систем счисления"
-                        Style="{ThemeResource TitleTextBlockStyle}" />
-                    <TextBlock
-                        Text="Перевод чисел между BIN, OCT, DEC и HEX"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}" />
-                </StackPanel>
-
-                <Border
-                    Padding="20"
-                    CornerRadius="8"
-                    BorderThickness="1"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <Grid RowSpacing="14">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Text="ИСХОДНОЕ ЧИСЛО"
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                VerticalAlignment="Center" />
-
-                            <ComboBox
-                                Grid.Column="1"
-                                Width="150"
-                                Header="Система счисления"
-                                ItemsSource="{Binding BaseOptions}"
-                                DisplayMemberPath="Name"
-                                SelectedValuePath="Value"
-                                SelectedValue="{Binding SelectedBase, Mode=TwoWay}" />
-                        </Grid>
-
-                        <TextBox
-                            x:Name="InputDisplay"
-                            Grid.Row="1"
-                            Text="{Binding InputText, Mode=OneWay}"
-                            IsReadOnly="True"
-                            IsSpellCheckEnabled="False"
-                            TextWrapping="NoWrap"
-                            TextAlignment="Right"
-                            FontFamily="Consolas"
-                            FontSize="38"
-                            MinHeight="76"
-                            Padding="12"
-                            Background="{ThemeResource ControlFillColorSecondaryBrush}"
-                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                            SelectionFlyout="{x:Null}"
-                            AutomationProperties.Name="Ввод числа" />
-
-                        <StackPanel
-                            Grid.Row="2"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            Spacing="8">
-                            <Button
-                                Content="±"
-                                MinWidth="44"
-                                Command="{Binding ToggleSignCommand}"
-                                ToolTipService.ToolTip="Изменить знак числа"
-                                AutomationProperties.Name="Изменить знак" />
-                            <Button
-                                Content="⌫"
-                                MinWidth="44"
-                                Command="{Binding BackspaceCommand}"
-                                ToolTipService.ToolTip="Удалить последний символ"
-                                AutomationProperties.Name="Удалить последний символ" />
-                            <Button
-                                Content="Очистить"
-                                Command="{Binding ClearCommand}"
-                                ToolTipService.ToolTip="Очистить число" />
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                VerticalAlignment="Center"
+                Spacing="8">
 
                 <InfoBar
                     IsOpen="{Binding HasError}"
@@ -113,167 +62,88 @@
                     Severity="Error"
                     IsClosable="False" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        Text="ПРЕДСТАВЛЕНИЕ В ДРУГИХ СИСТЕМАХ"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        FontSize="12"
-                        FontWeight="SemiBold" />
+                <ListView
+                    x:Name="BaseList"
+                    SelectionChanged="BaseList_SelectionChanged"
+                    MinWidth="300"
+                    MaxWidth="700"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                    AutomationProperties.Name="Результаты в системах счисления">
 
-                    <Grid ColumnSpacing="12" RowSpacing="12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                    <ListViewItem Tag="16">
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="HEX" VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding HexValue}"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </ListViewItem>
 
-                        <Border
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Padding="16"
-                            CornerRadius="8"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                            <StackPanel Spacing="8">
-                                <Grid>
-                                    <TextBlock
-                                        Text="HEX"
-                                        FontWeight="SemiBold"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                    <TextBlock
-                                        Text="BASE 16"
-                                        HorizontalAlignment="Right"
-                                        FontSize="11"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
-                                </Grid>
-                                <TextBox
-                                    Text="{Binding HexValue}"
-                                    IsReadOnly="True"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    FontFamily="Consolas"
-                                    FontSize="21"
-                                    TextWrapping="Wrap"
-                                    IsSpellCheckEnabled="False"
-                                    AutomationProperties.Name="Шестнадцатеричное представление" />
-                            </StackPanel>
-                        </Border>
+                    <ListViewItem Tag="10">
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="DEC" VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding DecimalValue}"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </ListViewItem>
 
-                        <Border
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Padding="16"
-                            CornerRadius="8"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                            <StackPanel Spacing="8">
-                                <Grid>
-                                    <TextBlock
-                                        Text="DEC"
-                                        FontWeight="SemiBold"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                    <TextBlock
-                                        Text="BASE 10"
-                                        HorizontalAlignment="Right"
-                                        FontSize="11"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
-                                </Grid>
-                                <TextBox
-                                    Text="{Binding DecimalValue}"
-                                    IsReadOnly="True"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    FontFamily="Consolas"
-                                    FontSize="21"
-                                    TextWrapping="Wrap"
-                                    IsSpellCheckEnabled="False"
-                                    AutomationProperties.Name="Десятичное представление" />
-                            </StackPanel>
-                        </Border>
+                    <ListViewItem Tag="8">
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="OCT" VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding OctalValue}"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </ListViewItem>
 
-                        <Border
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Padding="16"
-                            CornerRadius="8"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                            <StackPanel Spacing="8">
-                                <Grid>
-                                    <TextBlock
-                                        Text="OCT"
-                                        FontWeight="SemiBold"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                    <TextBlock
-                                        Text="BASE 8"
-                                        HorizontalAlignment="Right"
-                                        FontSize="11"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
-                                </Grid>
-                                <TextBox
-                                    Text="{Binding OctalValue}"
-                                    IsReadOnly="True"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    FontFamily="Consolas"
-                                    FontSize="21"
-                                    TextWrapping="Wrap"
-                                    IsSpellCheckEnabled="False"
-                                    AutomationProperties.Name="Восьмеричное представление" />
-                            </StackPanel>
-                        </Border>
-
-                        <Border
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Padding="16"
-                            CornerRadius="8"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                            <StackPanel Spacing="8">
-                                <Grid>
-                                    <TextBlock
-                                        Text="BIN"
-                                        FontWeight="SemiBold"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                    <TextBlock
-                                        Text="BASE 2"
-                                        HorizontalAlignment="Right"
-                                        FontSize="11"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
-                                </Grid>
-                                <TextBox
-                                    Text="{Binding BinaryValue}"
-                                    IsReadOnly="True"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    FontFamily="Consolas"
-                                    FontSize="21"
-                                    TextWrapping="Wrap"
-                                    IsSpellCheckEnabled="False"
-                                    AutomationProperties.Name="Двоичное представление" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </StackPanel>
-
-                <TextBlock
-                    Text="Ввод с клавиатуры: 0–9, A–F · Backspace — удалить · Esc — очистить · − — изменить знак"
-                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                    FontSize="12"
-                    TextWrapping="Wrap" />
+                    <ListViewItem Tag="2">
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="BIN" VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding BinaryValue}"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </ListViewItem>
+                </ListView>
             </StackPanel>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </Page>

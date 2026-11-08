@@ -22,6 +22,28 @@ public sealed partial class MainPage : Page
 
     private void MainPage_Loaded(object sender, RoutedEventArgs e)
     {
+        BaseList.SelectedIndex = ViewModel.SelectedBase switch
+        {
+            16 => 0,
+            10 => 1,
+            8 => 2,
+            2 => 3,
+            _ => 1
+        };
+
+        InputDisplay.Focus(FocusState.Programmatic);
+    }
+
+    private void BaseList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is not ListView list
+            || list.SelectedItem is not ListViewItem item
+            || !int.TryParse(item.Tag?.ToString(), out var numberBase))
+        {
+            return;
+        }
+
+        ViewModel.SelectedBase = numberBase;
         InputDisplay.Focus(FocusState.Programmatic);
     }
 
