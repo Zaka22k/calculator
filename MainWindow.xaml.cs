@@ -5,6 +5,9 @@ namespace Calculator;
 
 public sealed partial class MainWindow : Window
 {
+    private const double DefaultWindowWidth = 760;
+    private const double DefaultWindowHeight = 400;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -21,8 +24,8 @@ public sealed partial class MainWindow : Window
     private void RootFrame_Loaded(object sender, RoutedEventArgs e)
     {
         var scale = RootFrame.XamlRoot.RasterizationScale;
-        var width = (int)Math.Round(900 * scale);
-        var height = (int)Math.Round(760 * scale);
+        var width = (int)Math.Round(DefaultWindowWidth * scale);
+        var height = (int)Math.Round(DefaultWindowHeight * scale);
 
         AppWindow.Resize(new Windows.Graphics.SizeInt32(width, height));
     }
