@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Calculator.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,14 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    RequestedTheme="Dark"
     KeyDown="MainPage_KeyDown"
-    Loaded="MainPage_Loaded">
+    Loaded="MainPage_Loaded"
+    RequestedTheme="Dark"
+    mc:Ignorable="d">
 
-    <Grid
-        Margin="12"
-        Background="#241D1B">
+    <Grid Margin="12">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="42*" />
@@ -22,41 +20,41 @@
 
         <Viewbox
             Grid.Row="0"
-            Stretch="Uniform"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            Stretch="Uniform">
             <TextBox
                 x:Name="InputDisplay"
                 Width="850"
                 Height="84"
-                Text="{Binding InputText, Mode=OneWay}"
+                Padding="10"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="Текущее число"
+                Background="Transparent"
+                BorderThickness="0"
+                FontSize="46"
+                FontStretch="UltraCondensed"
+                Foreground="#F5F3F2"
                 IsReadOnly="True"
                 IsSpellCheckEnabled="False"
-                TextWrapping="NoWrap"
-                TextAlignment="Right"
-                VerticalContentAlignment="Center"
-                FontSize="46"
-                Foreground="#F5F3F2"
-                FontStretch="UltraCondensed"
-                Padding="10"
-                BorderThickness="0"
-                Background="Transparent"
                 SelectionFlyout="{x:Null}"
-                AutomationProperties.Name="Текущее число" />
+                Text="{Binding InputText, Mode=OneWay}"
+                TextAlignment="Right"
+                TextWrapping="NoWrap" />
         </Viewbox>
 
         <ListView
             x:Name="BaseList"
             Grid.Row="1"
             Width="320"
+            Padding="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            SelectionMode="None"
-            Padding="0"
-            BorderThickness="0"
-            BorderBrush="Transparent"
+            AutomationProperties.Name="Результаты в системах счисления"
             Background="Transparent"
-            AutomationProperties.Name="Результаты в системах счисления">
+            BorderBrush="Transparent"
+            BorderThickness="0"
+            SelectionMode="None">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -75,10 +73,10 @@
                 Width="320"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                IsClosable="False"
                 IsOpen="{Binding HasError}"
                 Message="{Binding ErrorMessage}"
-                Severity="Error"
-                IsClosable="False" />
+                Severity="Error" />
 
             <ListViewItem Tag="16" Tapped="BaseListItem_Tapped">
                 <Grid MinHeight="34" ColumnSpacing="0">
@@ -92,25 +90,25 @@
                         Grid.Column="0"
                         Width="3"
                         Height="22"
-                        CornerRadius="2"
+                        VerticalAlignment="Center"
                         Background="#D3A04B"
-                        Visibility="Collapsed"
-                        VerticalAlignment="Center" />
+                        CornerRadius="2"
+                        Visibility="Collapsed" />
                     <TextBlock
                         Grid.Column="1"
-                        Text="HEX"
                         Margin="8,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        VerticalAlignment="Center" />
+                        Text="HEX" />
                     <TextBlock
                         Grid.Column="2"
-                        Text="{Binding HexValue}"
                         Margin="9,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        TextWrapping="Wrap"
-                        VerticalAlignment="Center" />
+                        Text="{Binding HexValue}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </ListViewItem>
 
@@ -126,25 +124,25 @@
                         Grid.Column="0"
                         Width="3"
                         Height="22"
-                        CornerRadius="2"
+                        VerticalAlignment="Center"
                         Background="#D3A04B"
-                        Visibility="Collapsed"
-                        VerticalAlignment="Center" />
+                        CornerRadius="2"
+                        Visibility="Collapsed" />
                     <TextBlock
                         Grid.Column="1"
-                        Text="DEC"
                         Margin="8,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        VerticalAlignment="Center" />
+                        Text="DEC" />
                     <TextBlock
                         Grid.Column="2"
-                        Text="{Binding DecimalValue}"
                         Margin="9,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        TextWrapping="Wrap"
-                        VerticalAlignment="Center" />
+                        Text="{Binding DecimalValue}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </ListViewItem>
 
@@ -160,25 +158,25 @@
                         Grid.Column="0"
                         Width="3"
                         Height="22"
-                        CornerRadius="2"
+                        VerticalAlignment="Center"
                         Background="#D3A04B"
-                        Visibility="Collapsed"
-                        VerticalAlignment="Center" />
+                        CornerRadius="2"
+                        Visibility="Collapsed" />
                     <TextBlock
                         Grid.Column="1"
-                        Text="OCT"
                         Margin="8,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        VerticalAlignment="Center" />
+                        Text="OCT" />
                     <TextBlock
                         Grid.Column="2"
-                        Text="{Binding OctalValue}"
                         Margin="9,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        TextWrapping="Wrap"
-                        VerticalAlignment="Center" />
+                        Text="{Binding OctalValue}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </ListViewItem>
 
@@ -194,25 +192,25 @@
                         Grid.Column="0"
                         Width="3"
                         Height="22"
-                        CornerRadius="2"
+                        VerticalAlignment="Center"
                         Background="#D3A04B"
-                        Visibility="Collapsed"
-                        VerticalAlignment="Center" />
+                        CornerRadius="2"
+                        Visibility="Collapsed" />
                     <TextBlock
                         Grid.Column="1"
-                        Text="BIN"
                         Margin="8,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        VerticalAlignment="Center" />
+                        Text="BIN" />
                     <TextBlock
                         Grid.Column="2"
-                        Text="{Binding BinaryValue}"
                         Margin="9,0,0,0"
+                        VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="#F5F3F2"
-                        TextWrapping="Wrap"
-                        VerticalAlignment="Center" />
+                        Text="{Binding BinaryValue}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </ListViewItem>
         </ListView>
