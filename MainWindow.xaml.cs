@@ -23,8 +23,7 @@ public sealed partial class MainWindow : Window
     private void RootFrame_Loaded(object sender, RoutedEventArgs e)
     {
         var scale = RootFrame.XamlRoot.RasterizationScale;
-        var size = (int)Math.Round(DefaultWindowSize * scale);
 
-        AppWindow.Resize(new Windows.Graphics.SizeInt32(size, size));
+        AppWindow.Resize(new Windows.Graphics.SizeInt32(400, 400));
     }
 }

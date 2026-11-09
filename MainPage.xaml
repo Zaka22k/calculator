@@ -32,6 +32,8 @@
                 AutomationProperties.Name="Текущее число"
                 Background="Transparent"
                 BorderThickness="0"
+                FocusVisualPrimaryBrush="Transparent"
+                FocusVisualSecondaryBrush="Transparent"
                 FontSize="46"
                 FontStretch="UltraCondensed"
                 Foreground="#F5F3F2"
@@ -40,9 +42,7 @@
                 SelectionFlyout="{x:Null}"
                 Text="{Binding InputText, Mode=OneWay}"
                 TextAlignment="Right"
-                TextWrapping="NoWrap"
-                FocusVisualPrimaryBrush="Transparent"
-                FocusVisualSecondaryBrush="Transparent">
+                TextWrapping="NoWrap">
                 <TextBox.Resources>
                     <ResourceDictionary>
                         <SolidColorBrush x:Key="TextControlBackground" Color="Transparent" />
@@ -61,7 +61,7 @@
             Grid.Row="1"
             Width="320"
             Padding="0"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             AutomationProperties.Name="Результаты в системах счисления"
             Background="Transparent"
